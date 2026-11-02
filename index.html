@@ -1,1 +1,46 @@
-
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Karthick Resume</title>
+<style>
+/* Launcher: sends each visit to the next resume design in rotation. Shows a plain list only if scripts are off or the redirect is slow. */
+:root { --void: #000; --text: #e8eaef; --muted: #868b98; --accent: #6cb6ff; color-scheme: dark; }
+html, body { margin: 0; background: var(--void); color: var(--text); font: 15px/1.6 ui-monospace, Consolas, monospace; }
+body { min-height: 100vh; display: grid; place-content: center; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+a { color: var(--accent); }
+.list { display: none; gap: 6px; }
+.slow .list, noscript .list { display: grid; }
+.k { color: var(--muted); }
+</style>
+</head>
+<body>
+<p class="k" id="msg">Loading Karthick's resume…</p>
+<div class="list">
+  <a href="bento.html">Bento grid</a>
+  <a href="terminal.html">Terminal</a>
+  <a href="deck.html">Slide deck</a>
+  <a href="shell.html">Interactive shell</a>
+  <a href="commits.html">Commit log</a>
+</div>
+<noscript><style>#msg { display: none; } .list { display: grid; }</style></noscript>
+<script>
+(() => {
+  const DESIGNS = ['bento.html', 'terminal.html', 'deck.html', 'shell.html', 'commits.html'];
+  const KEY = 'resume-design-next';
+  let i;
+  try {
+    const saved = parseInt(localStorage.getItem(KEY), 10);
+    // first visit starts at a random design, later visits walk the rotation
+    i = Number.isInteger(saved) && saved >= 0 ? saved % DESIGNS.length : Math.floor(Math.random() * DESIGNS.length);
+    localStorage.setItem(KEY, String((i + 1) % DESIGNS.length));
+  } catch (_) {
+    i = Math.floor(Math.random() * DESIGNS.length);
+  }
+  location.replace(DESIGNS[i] + location.hash);
+  setTimeout(() => document.body.classList.add('slow'), 2500);
+})();
+</script>
+</body>
+</html>
