@@ -182,14 +182,58 @@ a { color: var(--prompt); }
         '         log analysis and GCP usage data to remove idle resources.'
       ]
     },
-    platform: {
-      title: 'Rate limiting, push notifications, feature flags and internal tools',
+    security: {
+      title: 'Hardening API security across our services',
       lines: () => [
-        '<span class="ok">+</span> API rate limiting to protect services from abusive or runaway clients',
-        '<span class="ok">+</span> real-time push notifications',
-        '<span class="ok">+</span> feature flags with the GrowthBook SDK for controlled rollouts',
-        '<span class="ok">+</span> internal support tools for the team',
-        '<span class="ok">+</span> code reviews and CI/CD pipelines in a large monorepo with frontend, QA, DevOps'
+        'A lot of the security work on our APIs lands with me.',
+        '',
+        '<span class="vi">bola/idor</span>  endpoints trusted the ID in the request; now they check the',
+        '           caller is allowed to access that record',
+        '<span class="vi">bfla</span>       privileged endpoints now reject callers without the right role',
+        '<span class="vi">limits</span>     rate limits and character limits on inputs reject runaway',
+        '           clients and oversized payloads early',
+        '<span class="vi">deps</span>       upgraded or replaced libraries flagged as vulnerable'
+      ]
+    },
+    'rate-limit': {
+      title: 'A reusable rate-limiting annotation',
+      lines: () => [
+        'Rate limiting used to mean custom code for each endpoint. I built a reusable',
+        'annotation for our Java REST layer, so any endpoint is protected with one line.',
+        '',
+        '<span class="dim">illustrative usage (names and values simplified)</span>',
+        '<span class="cy">@GET</span>',
+        '<span class="cy">@Path</span>(<span class="warn">"/appointments"</span>)',
+        '<span class="cy">@RateLimit</span>(limit = <span class="ok">60</span>, window = <span class="warn">"1m"</span>)',
+        'public Response listAppointments(...) { ... }'
+      ]
+    },
+    push: {
+      title: 'A push notification service, built from scratch',
+      lines: () => [
+        'The backend service that sends push notifications to our Android and iOS apps.',
+        '',
+        '  <span class="cy">credentials</span>  -->  <span class="cy">build message</span>  -->  <span class="cy">presence</span>  -->  <span class="cy">preferences</span>  -->  <span class="ok">deliver</span>',
+        '  <span class="dim">Firebase/GCP      payload            user presence  notification     Android</span>',
+        '  <span class="dim">                                                     settings         + iOS</span>'
+      ]
+    },
+    releases: {
+      title: 'Releasing features behind feature flags',
+      lines: () => [
+        'I release most of my features, especially alpha features, behind GrowthBook',
+        'feature flags, so a deploy never changes what customers see on its own.',
+        '',
+        '  <span class="cy">deploy, flag off</span>  -->  <span class="warn">verify in production</span>  -->  <span class="ok">release to all</span>'
+      ]
+    },
+    'internal-tool': {
+      title: 'An internal support tool, built end to end',
+      lines: () => [
+        'Built from scratch for our team; I owned every layer.',
+        '',
+        '<span class="vi">build</span>   architecture · UI design · backend · frontend',
+        '<span class="vi">ship</span>    authentication · security · Docker · CI/CD · cloud deployment'
       ]
     }
   };
@@ -225,8 +269,10 @@ a { color: var(--prompt); }
       'I maintain a high-traffic legacy Java platform, split a slow-starting service',
       'out of our BFF and rebuilt it in Rust, moved every service from App Engine to',
       'Cloud Run, and traced a $2,000-a-month timezone API bill down to a Redis',
-      'eviction problem. I work comfortably with AI-assisted development and pick up',
-      'new languages on the job when a problem calls for it.'
+      'eviction problem. I also own much of our API security work, built our push',
+      'notification service from scratch and built an internal support tool end to',
+      'end. I work comfortably with AI-assisted development and pick up new',
+      'languages on the job when a problem calls for it.'
     ],
     stats: () => {
       const rows = [['requests per day', '200K–500K+', 'w'], ['uptime', '99.9%', 'ok'], ['cold start, url preview', '12–20 s → 50 ms', 'w'], ['timezone api per month', '$2K → $30–100', 'w'], ['services on cloud run', 'all', 'w']];
@@ -236,11 +282,13 @@ a { color: var(--prompt); }
       '<span class="vi">languages</span>     Java · JavaScript · TypeScript · Rust (learned on the job) ·',
       '              Jakarta RESTEasy · Node.js (Fastify, Express) · Spring (working) · CDI',
       '<span class="vi">google cloud</span>  Cloud Run · App Engine · GKE · Cloud Scheduler · Cloud Logging ·',
-      '              BigQuery · Secret Manager · Cloud KMS · IAM',
+      '              BigQuery · Secret Manager · Cloud KMS · IAM · Firebase Cloud Messaging',
       '<span class="vi">data</span>          Cloud Datastore (NoSQL) · Cloud Storage · Redis',
       '<span class="vi">architecture</span>  Microservices · BFF decomposition · Cold-start reduction ·',
-      '              Cloud cost optimization · AuthN & AuthZ · Rate limiting · HA',
-      '<span class="vi">tools</span>         Gradle · Git · CI/CD · Jira · Confluence · SonarQube · GrowthBook ·',
+      '              Cloud cost optimization · AuthN & AuthZ · Rate limiting ·',
+      '              API security (BOLA, BFLA, IDOR) · HA',
+      '<span class="vi">tools</span>         Gradle · Git · CI/CD · Docker · Feature flags · Jira · Confluence ·',
+      '              SonarQube · GrowthBook ·',
       '              Structured logging · AI-assisted development'
     ],
     experience: () => [
@@ -337,7 +385,7 @@ a { color: var(--prompt); }
     if (!on) { input.focus({ preventScroll: true }); scroll(); }
   }
 
-  ['whoami', 'about', 'stats', 'skills', 'experience', 'open url-preview', 'open timezone', 'cert', 'education', 'contact', 'all', 'clear', 'help'].forEach(c => {
+  ['whoami', 'about', 'stats', 'skills', 'experience', 'open url-preview', 'open timezone', 'open security', 'cert', 'education', 'contact', 'all', 'clear', 'help'].forEach(c => {
     const b = document.createElement('button');
     b.type = 'button'; b.textContent = c;
     b.addEventListener('click', () => run(c, true));

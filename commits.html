@@ -146,7 +146,7 @@ pre.json .ky { color: var(--main); } pre.json .st { color: var(--hash); } pre.js
     <div class="title">Backend Software Engineer · Java · Node.js · Google Cloud</div>
     <div class="summary">
       <p>Backend Software Engineer with 3 years of experience on Java and Node.js services running on Google Cloud Platform, and a Google Cloud Certified Professional Cloud Architect.</p>
-      <p>I maintain a high-traffic legacy Java platform, split a slow-starting service out of our BFF and rebuilt it in Rust, moved every service from App Engine to Cloud Run, and traced a $2,000-a-month timezone API bill down to a Redis eviction problem. I work comfortably with AI-assisted development and pick up new languages on the job.</p>
+      <p>I maintain a high-traffic legacy Java platform, split a slow-starting service out of our BFF and rebuilt it in Rust, moved every service from App Engine to Cloud Run, and traced a $2,000-a-month timezone API bill down to a Redis eviction problem. I also own much of our API security work, built our push notification service from scratch and built an internal support tool end to end. I work comfortably with AI-assisted development and pick up new languages on the job.</p>
     </div>
     <div class="contacts">
       <span class="c">karthickraj2001@gmail.com <button type="button" class="copy" data-copy="karthickraj2001@gmail.com">copy</button></span>
@@ -165,10 +165,10 @@ pre.json .ky { color: var(--main); } pre.json .st { color: var(--hash); } pre.js
     <div class="deps">
       <div class="k">Dependencies</div>
       <div class="row"><span class="k">languages</span><span>Java · JavaScript · TypeScript · Rust (learned on the job) · Jakarta RESTEasy · Node.js (Fastify, Express) · Spring (working) · CDI</span></div>
-      <div class="row"><span class="k">google cloud</span><span>Cloud Run · App Engine · GKE · Cloud Scheduler · Cloud Logging · BigQuery · Secret Manager · Cloud KMS · IAM</span></div>
+      <div class="row"><span class="k">google cloud</span><span>Cloud Run · App Engine · GKE · Cloud Scheduler · Cloud Logging · BigQuery · Secret Manager · Cloud KMS · IAM · Firebase Cloud Messaging</span></div>
       <div class="row"><span class="k">data</span><span>Cloud Datastore (NoSQL) · Cloud Storage · Redis</span></div>
-      <div class="row"><span class="k">architecture</span><span>Microservices · BFF decomposition · Cold-start reduction · Cloud cost optimization · AuthN &amp; AuthZ · Rate limiting · HA</span></div>
-      <div class="row"><span class="k">tools</span><span>Gradle · Git · CI/CD · Jira · Confluence · SonarQube · GrowthBook · Structured logging · AI-assisted development</span></div>
+      <div class="row"><span class="k">architecture</span><span>Microservices · BFF decomposition · Cold-start reduction · Cloud cost optimization · AuthN &amp; AuthZ · Rate limiting · API security (BOLA, BFLA, IDOR) · HA</span></div>
+      <div class="row"><span class="k">tools</span><span>Gradle · Git · CI/CD · Docker · Feature flags · Jira · Confluence · SonarQube · GrowthBook · Structured logging · AI-assisted development</span></div>
     </div>
   </div>
 </header>
@@ -207,10 +207,31 @@ pre.json .ky { color: var(--main); } pre.json .st { color: var(--hash); } pre.js
       title: 'Google Cloud Certified · Professional Cloud Architect', file: 'certifications/google-cloud.md',
       diff: [['+', 'certification: Professional Cloud Architect'], ['+', 'issued: Jul 15, 2026'], ['+', 'expires: Jul 15, 2028']],
       extra: () => [document.getElementById('cert').content.cloneNode(true), '<a href="https://credly.com/badges/759487c8-3650-43f8-b6c9-9af107c276e8" target="_blank" rel="noopener">Verify on Credly →</a>'] },
-    { id: 'platform', lane: 0, ty: 'feat', sc: 'platform', msg: 'rate limiting, push notifications, feature flags, internal tools',
-      title: 'Rate limiting, push notifications, feature flags and internal tools', file: 'platform/features.md',
-      diff: [['+', 'API rate limiting against abusive or runaway clients'], ['+', 'real-time push notifications'], ['+', 'feature flags with the GrowthBook SDK for controlled rollouts'], ['+', 'internal support tools for the team'], ['+', 'code reviews and CI/CD pipelines in a large monorepo']],
-      extra: () => ['<div class="chips"><span class="chip">GrowthBook</span><span class="chip">CI/CD</span><span class="chip">Monorepo</span></div>'] },
+    { id: 'internal-tool', lane: 0, ty: 'feat', sc: 'internal-tool', msg: 'internal support tool, built end to end',
+      title: 'An internal support tool, built end to end', file: 'tools/support/README.md',
+      body: 'I built an internal tool for our team from scratch and owned all of it, from the first architecture sketch to running it in the cloud.',
+      diff: [['+', 'architecture and UI design'], ['+', 'backend and frontend'], ['+', 'authentication and security'], ['+', 'Docker image and CI/CD config'], ['+', 'cloud deployment']],
+      extra: () => ['<div class="chips"><span class="chip">Full stack</span><span class="chip">Docker</span><span class="chip">CI/CD</span><span class="chip">Auth</span></div>'] },
+    { id: 'releases', lane: 0, ty: 'feat', sc: 'releases', msg: 'ship features behind GrowthBook flags, verify in prod before release',
+      title: 'Releasing features behind feature flags', file: 'releases/flags.md',
+      body: 'I release most of my features, especially alpha features, behind GrowthBook feature flags, so a deploy never changes what customers see on its own.',
+      diff: [['-', 'release: deploy goes straight to every customer'], ['+', 'step 1: deploy with the flag off, customers unaffected'], ['+', 'step 2: verify the feature in production'], ['+', 'step 3: turn the flag on for everyone']],
+      extra: () => ['<div class="chips"><span class="chip">GrowthBook SDK</span><span class="chip">Feature flags</span><span class="chip">Alpha releases</span></div>'] },
+    { id: 'push', lane: 0, ty: 'feat', sc: 'push', msg: 'push notification service for Android and iOS, from scratch',
+      title: 'A push notification service, built from scratch', file: 'services/push',
+      body: 'I built the backend service that sends push notifications to our Android and iOS apps. Every notification goes through the same five steps.',
+      diff: [['+', '1. load Firebase credentials from GCP'], ['+', '2. construct the message'], ['+', "3. check the user's presence"], ['+', "4. check the user's notification preferences"], ['+', '5. deliver to Android and iOS devices']],
+      extra: () => ['<div class="chips"><span class="chip">Firebase Cloud Messaging</span><span class="chip">Google Cloud</span><span class="chip">Android</span><span class="chip">iOS</span></div>'] },
+    { id: 'rate-limit', lane: 0, ty: 'feat', sc: 'rate-limit', msg: 'reusable @RateLimit annotation, one line per endpoint',
+      title: 'A reusable rate-limiting annotation', file: 'api/RateLimit.java',
+      body: 'Rate limiting used to mean writing custom code for each endpoint. I built a reusable annotation for our Java REST layer, so the team can protect any endpoint by adding one line to it.',
+      diff: [['-', 'rate limiting: custom code on each endpoint'], ['+', 'rate limiting: one reusable annotation'], ['+', '@RateLimit(limit = 60, window = "1m")  // illustrative']],
+      extra: () => ['<div class="chips"><span class="chip">Java</span><span class="chip">Jakarta RESTEasy</span><span class="chip">Annotations</span></div>'] },
+    { id: 'security', lane: 0, ty: 'fix', sc: 'security', msg: 'close BOLA/IDOR and BFLA gaps, add abuse limits, patch deps',
+      title: 'Hardening API security across our services', file: 'api/security.md',
+      body: 'A lot of the security work on our APIs lands with me: closing authorization holes, limiting abuse and keeping dependencies patched.',
+      diff: [['-', 'endpoints trust the ID in the request (BOLA / IDOR)'], ['+', 'check the caller can access the record behind each ID'], ['-', "privileged endpoints don't check the caller's role (BFLA)"], ['+', 'only callers with the right role can reach them'], ['+', 'rate limits and character limits on inputs'], ['+', 'vulnerable dependencies upgraded or replaced']],
+      extra: () => ['<div class="chips"><span class="chip">OWASP API Top 10</span><span class="chip">BOLA</span><span class="chip">BFLA</span><span class="chip">IDOR</span></div>'] },
     { id: 'logging', lane: 0, ty: 'feat', sc: 'observability', msg: 'structured request logging on the legacy app',
       title: 'Making a legacy app debuggable with structured request logs', file: 'legacy/logging.config',
       body: 'The legacy app was hard to debug in production. I added structured logging to Cloud Logging that records an audit trail for every request.',

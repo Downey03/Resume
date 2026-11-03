@@ -222,7 +222,7 @@ ul.pts > li > .ink::before { content: ""; position: absolute; left: -16px; top: 
     <div class="tag"><span>Summary</span><span class="st">Awaiting</span></div>
     <h2 class="part">Professional summary</h2>
     <p class="part">Backend Software Engineer with 3 years of experience on Java and Node.js services running on Google Cloud Platform, and a Google Cloud Certified Professional Cloud Architect.</p>
-    <p class="part">I maintain a high-traffic legacy Java platform, split a slow-starting service out of our BFF and rebuilt it in Rust, moved every service from App Engine to Cloud Run, and traced a $2,000-a-month timezone API bill down to a Redis eviction problem.</p>
+    <p class="part">I maintain a high-traffic legacy Java platform, split a slow-starting service out of our BFF and rebuilt it in Rust, moved every service from App Engine to Cloud Run, and traced a $2,000-a-month timezone API bill down to a Redis eviction problem. I also own much of our API security work, built our push notification service from scratch and built an internal support tool end to end.</p>
     <p class="part">I work comfortably with AI-assisted development and pick up new languages on the job when a problem calls for it.</p>
   </section>
 
@@ -251,10 +251,10 @@ ul.pts > li > .ink::before { content: ""; position: absolute; left: -16px; top: 
     <h2 class="part">Technical skills</h2>
     <div class="skillgrid">
       <div class="blk part"><div class="k">Languages &amp; frameworks</div><div class="chips"><span class="chip">Java</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">Rust (learned on the job)</span><span class="chip">Jakarta RESTEasy</span><span class="chip">Node.js (Fastify, Express)</span><span class="chip">Spring (working knowledge)</span><span class="chip">CDI</span></div></div>
-      <div class="blk part"><div class="k">Google Cloud</div><div class="chips"><span class="chip">Cloud Run</span><span class="chip">App Engine</span><span class="chip">GKE</span><span class="chip">Cloud Scheduler</span><span class="chip">Cloud Logging</span><span class="chip">BigQuery</span><span class="chip">Secret Manager</span><span class="chip">Cloud KMS</span><span class="chip">IAM</span></div></div>
+      <div class="blk part"><div class="k">Google Cloud</div><div class="chips"><span class="chip">Cloud Run</span><span class="chip">App Engine</span><span class="chip">GKE</span><span class="chip">Cloud Scheduler</span><span class="chip">Cloud Logging</span><span class="chip">BigQuery</span><span class="chip">Secret Manager</span><span class="chip">Cloud KMS</span><span class="chip">IAM</span><span class="chip">Firebase Cloud Messaging</span></div></div>
       <div class="blk part"><div class="k">Data &amp; caching</div><div class="chips"><span class="chip">Cloud Datastore (NoSQL)</span><span class="chip">Cloud Storage</span><span class="chip">Redis</span></div></div>
-      <div class="blk part"><div class="k">Architecture</div><div class="chips"><span class="chip">Microservices</span><span class="chip">BFF decomposition</span><span class="chip">Cold-start reduction</span><span class="chip">Cloud cost optimization</span><span class="chip">AuthN &amp; AuthZ</span><span class="chip">Rate limiting</span><span class="chip">High availability</span></div></div>
-      <div class="blk part"><div class="k">Tools &amp; practice</div><div class="chips"><span class="chip">Gradle</span><span class="chip">Git</span><span class="chip">CI/CD</span><span class="chip">Jira</span><span class="chip">Confluence</span><span class="chip">SonarQube</span><span class="chip">GrowthBook</span><span class="chip">Structured logging</span><span class="chip">AI-assisted development</span></div></div>
+      <div class="blk part"><div class="k">Architecture</div><div class="chips"><span class="chip">Microservices</span><span class="chip">BFF decomposition</span><span class="chip">Cold-start reduction</span><span class="chip">Cloud cost optimization</span><span class="chip">AuthN &amp; AuthZ</span><span class="chip">Rate limiting</span><span class="chip">API security (BOLA, BFLA, IDOR)</span><span class="chip">High availability</span></div></div>
+      <div class="blk part"><div class="k">Tools &amp; practice</div><div class="chips"><span class="chip">Gradle</span><span class="chip">Git</span><span class="chip">CI/CD</span><span class="chip">Docker</span><span class="chip">Feature flags</span><span class="chip">Jira</span><span class="chip">Confluence</span><span class="chip">SonarQube</span><span class="chip">GrowthBook</span><span class="chip">Structured logging</span><span class="chip">AI-assisted development</span></div></div>
     </div>
   </section>
 
@@ -348,20 +348,82 @@ ul.pts > li > .ink::before { content: ""; position: absolute; left: -16px; top: 
     <p class="part">I also used BigQuery log analysis and GCP usage data to find and remove idle resources.</p>
   </section>
 
-  <!-- Row: features + internship + education -->
-  <section class="module s4" data-state="blank" data-name="Platform features">
-    <div class="tag"><span>Case · Platform features</span><span class="st">Awaiting</span></div>
-    <h3 class="part">Rate limiting, push, flags and internal tools</h3>
-    <ul class="pts">
-      <li class="part">Built <b>API rate limiting</b> to protect services from abusive or runaway clients.</li>
-      <li class="part">Built <b>real-time push notifications</b>.</li>
-      <li class="part">Added <b>feature flags</b> with the GrowthBook SDK for controlled rollouts.</li>
-      <li class="part">Built <b>internal support tools</b> for the team.</li>
-      <li class="part">Worked with frontend, QA and DevOps in a large monorepo on code reviews and <b>CI/CD pipelines</b>.</li>
-    </ul>
+  <!-- Row: security + rate-limit annotation -->
+  <section class="module s7" data-state="blank" data-name="API security">
+    <div class="tag"><span>Case · API security</span><span class="st">Awaiting</span></div>
+    <h3 class="part">Hardening API security across our services</h3>
+    <p class="part">A lot of the security work on our APIs lands with me: closing authorization holes, limiting abuse and keeping dependencies patched.</p>
+    <div class="blocks">
+      <div class="blk part"><div class="k">BOLA / IDOR</div><div>Fixed endpoints that trusted the ID in the request, so they now check the caller is allowed to access that record.</div></div>
+      <div class="blk part"><div class="k">BFLA</div><div>Fixed privileged endpoints that didn't check the caller's role, so only users with the right role can call them.</div></div>
+      <div class="blk part"><div class="k">Abuse limits</div><div>Added rate limits and character limits on inputs, so runaway clients and oversized payloads are rejected early.</div></div>
+      <div class="blk part"><div class="k">Dependencies</div><div>Upgraded or replaced libraries flagged as vulnerable.</div></div>
+    </div>
+    <div class="chips part push"><span class="chip">OWASP API Top 10</span><span class="chip">BOLA</span><span class="chip">BFLA</span><span class="chip">IDOR</span><span class="chip">Rate limiting</span><span class="chip">Input limits</span><span class="chip">Dependency patching</span></div>
   </section>
 
-  <section class="module s4" data-state="blank" data-name="Internship">
+  <section class="module s5" data-state="blank" data-name="Rate-limit annotation">
+    <div class="tag"><span>Case · Rate limiting</span><span class="st">Awaiting</span></div>
+    <h3 class="part">A reusable rate-limiting annotation</h3>
+    <div class="metric part"><div class="v">1 line <small>to rate-limit an endpoint</small></div></div>
+    <p class="part">Rate limiting used to mean writing custom code for each endpoint. I built a reusable annotation for our Java REST layer, so the team can protect any endpoint by adding one line to it.</p>
+    <div class="part">
+      <div class="cap" style="margin-bottom:6px">Illustrative usage (names and values simplified)</div>
+      <pre class="log-line"><span class="key">@GET</span>
+<span class="key">@Path</span>(<span class="str">"/appointments"</span>)
+<span class="key">@RateLimit</span>(limit = <span class="num">60</span>, window = <span class="str">"1m"</span>)
+public Response listAppointments(...) { ... }</pre>
+    </div>
+    <div class="chips part push"><span class="chip">Java</span><span class="chip">Jakarta RESTEasy</span><span class="chip">Annotations</span></div>
+  </section>
+
+  <!-- Row: push + releases -->
+  <section class="module s7" data-state="blank" data-name="Push notifications">
+    <div class="tag"><span>Case · Push notifications</span><span class="st">Awaiting</span></div>
+    <h3 class="part">A push notification service, built from scratch</h3>
+    <div class="metric part"><div class="v">Android + iOS <small>from one backend service</small></div></div>
+    <p class="part">I built the backend service that sends push notifications to our Android and iOS apps. Every notification goes through the same five steps:</p>
+    <div class="flow part">
+      <div class="node"><span class="t">1 · Credentials</span><span class="cap">loads Firebase credentials from GCP</span></div>
+      <span class="arrow">→</span>
+      <div class="node"><span class="t">2 · Build message</span><span class="cap">constructs the payload</span></div>
+      <span class="arrow">→</span>
+      <div class="node"><span class="t">3 · Presence</span><span class="cap">checks the user's presence</span></div>
+      <span class="arrow">→</span>
+      <div class="node"><span class="t">4 · Preferences</span><span class="cap">respects notification settings</span></div>
+      <span class="arrow">→</span>
+      <div class="node cool"><span class="t">5 · Deliver</span><span class="cap">Android and iOS devices</span></div>
+    </div>
+    <div class="chips part push"><span class="chip">Firebase Cloud Messaging</span><span class="chip">Google Cloud</span><span class="chip">Android</span><span class="chip">iOS</span></div>
+  </section>
+
+  <section class="module s5" data-state="blank" data-name="Feature-flag releases">
+    <div class="tag"><span>Case · Safe releases</span><span class="st">Awaiting</span></div>
+    <h3 class="part">Releasing features behind feature flags</h3>
+    <p class="part">I release most of my features, especially alpha features, behind <b>GrowthBook</b> feature flags. A deploy doesn't change anything for customers until the feature has been checked in production.</p>
+    <div class="flow part">
+      <div class="node"><span class="t">Deploy, flag off</span><span class="cap">code is live, customers unaffected</span></div>
+      <span class="arrow">→</span>
+      <div class="node hot"><span class="t">Verify in production</span><span class="cap">test in the real environment</span></div>
+      <span class="arrow">→</span>
+      <div class="node cool"><span class="t">Release to all</span><span class="cap">flag on for every customer</span></div>
+    </div>
+    <div class="chips part push"><span class="chip">GrowthBook SDK</span><span class="chip">Feature flags</span><span class="chip">Alpha releases</span></div>
+  </section>
+
+  <!-- Row: internal tool + internship + education -->
+  <section class="module s6" data-state="blank" data-name="Internal tool">
+    <div class="tag"><span>Case · Internal tool</span><span class="st">Awaiting</span></div>
+    <h3 class="part">An internal support tool, built end to end</h3>
+    <div class="metric part"><div class="v">Every layer <small>from design to production</small></div></div>
+    <p class="part">I built an internal tool for our team from scratch and owned all of it, from the first architecture sketch to running it in the cloud.</p>
+    <div class="blocks">
+      <div class="blk part"><div class="k">Build</div><div class="chips"><span class="chip">Architecture</span><span class="chip">UI design</span><span class="chip">Backend</span><span class="chip">Frontend</span></div></div>
+      <div class="blk part"><div class="k">Ship &amp; secure</div><div class="chips"><span class="chip">Authentication</span><span class="chip">Security</span><span class="chip">Docker</span><span class="chip">CI/CD</span><span class="chip">Cloud deployment</span></div></div>
+    </div>
+  </section>
+
+  <section class="module s3" data-state="blank" data-name="Internship">
     <div class="tag"><span>Internship</span><span class="st">Awaiting</span></div>
     <h3 class="part">Software Developer Intern · Full Creative</h3>
     <div class="when part">Apr 2023 – Aug 2023</div>
@@ -369,7 +431,7 @@ ul.pts > li > .ink::before { content: ""; position: absolute; left: -16px; top: 
     <p class="part">Shipped production Java backend features on GCP, owning bug fixes and feature tickets, which earned an <b>early promotion to full-time Software Developer</b>.</p>
   </section>
 
-  <section class="module s4" data-state="blank" data-name="Education">
+  <section class="module s3" data-state="blank" data-name="Education">
     <div class="tag"><span>Education</span><span class="st">Awaiting</span></div>
     <h3 class="part">B.E. Computer Science &amp; Engineering</h3>
     <p class="part">Saveetha Engineering College</p>
